@@ -30,8 +30,9 @@ public class FuncionarioController {
 		return funcionario;
 	}
 	
-	@PutMapping("/{idFuncionario}")
-	public Funcionario updateFuncionario(@PathVariable int idFuncionario, @RequestBody Funcionario dadosFuncionario) throws Exception{
+	//Reajustar Salario
+	@PutMapping("/reajustarsalario/{idFuncionario}")
+	public Funcionario reajustarSalarioFuncionario(@PathVariable int idFuncionario, @RequestBody Funcionario dadosFuncionario) throws Exception{
 		Funcionario meuFuncionario = funcionarioRepository.findById(idFuncionario)
 				.orElseThrow(() -> new IllegalAccessException());
 				
@@ -39,12 +40,23 @@ public class FuncionarioController {
 			meuFuncionario.setSalario(dadosFuncionario.getSalario());
 		}
 		
-		if(dadosFuncionario.isHabilitado() != meuFuncionario.isHabilitado()) {
-			meuFuncionario.setHabilitado(dadosFuncionario.isHabilitado());
-		}
-		
 		funcionarioRepository.save(meuFuncionario);		
 		return meuFuncionario;
 		
 	}
+	
+	//Demitir Funcionário
+	@GetMapping("/demitir/{idFuncionario}")
+	public Funcionario demitirFuncionario(@PathVariable int idFuncionario) throws Exception{
+		Funcionario meuFuncionario = funcionarioRepository.findById(idFuncionario)
+				.orElseThrow(() -> new IllegalAccessException());
+				
+		if(meuFuncionario.isHabilitado() == true) {
+			meuFuncionario.setHabilitado(false);
+		}
+		
+		funcionarioRepository.save(meuFuncionario);		
+		return meuFuncionario;
+	}
+
 }

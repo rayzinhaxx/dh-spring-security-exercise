@@ -38,12 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 		http.csrf().disable()
 		.authorizeRequests()
 		.antMatchers("/cliente").hasAnyRole("GERENTE", "FUNCIONARIO")
-		.antMatchers(HttpMethod.POST, "/cliente/cadastrar").hasAnyRole("GERENTE", "FUNCIONARIO")
+		.antMatchers("/cliente/cadastrar").hasAnyRole("GERENTE", "FUNCIONARIO")
 		.antMatchers("/pedido").hasAnyRole("GERENTE", "FUNCIONARIO")
 		.antMatchers("/pedido/cadastrar").hasAnyRole("GERENTE", "FUNCIONARIO")
 		.antMatchers("/funcionario").hasAnyRole("GERENTE", "FUNCIONARIO")
-		.antMatchers(HttpMethod.POST, "/funcionario/cadastrar").hasAnyRole("GERENTE")
-		.antMatchers("/funcionario/{id}").hasRole("GERENTE")
+		.antMatchers("/funcionario/cadastrar").hasAnyRole("GERENTE")
+		.antMatchers("/funcionario/reajustarsalario/{id}").hasRole("GERENTE")
+		.antMatchers("/funcionario/demitir/{id}").hasRole("GERENTE")
 		.and().httpBasic();
 	}
 }
